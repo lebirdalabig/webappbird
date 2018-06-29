@@ -46,7 +46,7 @@
 
 	<script type="text/javascript">
 		$('#branch').change(function(){
-			var url = "";
+			var url;
 			var data;
 			
 			$.ajax({

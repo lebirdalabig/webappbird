@@ -138,7 +138,37 @@ class User extends CI_Controller {
             $this->load->view('moviePage', $data);
             $this->load->view('footer');
         }
-		
+
+        public  function userSettings()
+        {
+            $this->load->view('header');
+            $this->load->view('userSettings');
+            $this->load->view('footer');
+
+        }
+
+        public function updateUser()
+        {
+            $this->load->model('userModel');
+            $form_data = array(
+                //'user' => "",
+                'username' => $this->input->post("username"),
+                'password' => $this->input->post("Password"),
+                'user_email' => $this->input->post("email"),
+                'user_fname' => $this->input->post("fName"),
+                'user_lname' => $this->input->post("lName"),
+                'user_mobile' => $this->input->post("Phone"),
+                'user_type' => "Customer"
+            );
+            $res = $this->userModel->updateUser($form_data);
+            if($res){
+                redirect(base_url('user/userSettings'),'refresh');
+            }else{
+                redirect(base_url('welcome/index'),'refresh');
+            }
+
+        }	
+
 		public function updateItem($id = 0){
 			if($this->isLoggedIn()){
 				$msg['success'] = false;

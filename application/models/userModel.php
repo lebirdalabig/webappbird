@@ -35,11 +35,6 @@
 			return $this->db->insert('user', $form_data);
 		}
 		
-		public function addUser($form_data)
-		{
-			return $this->db->insert('user', $form_data);
-		}
-		
 		public function deleteUser($user_id)
 		{
 			$sql = "DELETE FROM `user` WHERE user_id = ? ";
@@ -48,9 +43,9 @@
 		
 		public function updateUser($form_data)
 		{
-			$u_id = $form_data['user_id'];
-			unset($form_data['user_id']);
-			$this->db->where('user_id',$u_id);
+			$u_id = $form_data['username'];
+			unset($form_data['username']);
+			$this->db->where('username',$u_id);
 			//print_r ($form_data);
 			return $this->db->update('user', $form_data);
 		}

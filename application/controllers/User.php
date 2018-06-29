@@ -43,6 +43,7 @@ class User extends CI_Controller {
         public function transaction()
         {
             $this->load->model('screeningModel');
+            $this->load->model('buildingModel');
             $this->movieModel->specific_movie($id);
             $this->load->model('movieModel');
             $form_data = array(
@@ -130,10 +131,13 @@ class User extends CI_Controller {
         public function moviePage($id)
         {
             $this->load->view('header');
-
+            $this->load->model('cinemaaModel');
+            $this->load->model('buildingModel');
             $this->load->model('movieModel');
             $this->movieModel->specific_movie($id);
             $data['res'] = $this->movieModel->specific_movie($id);
+            $data['cinema'] = $this->cinemaaModel->get_cinema();
+            $data['building'] = $this->buildingModel->get_all();
 
             $this->load->view('moviePage', $data);
             $this->load->view('footer');

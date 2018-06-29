@@ -7,15 +7,23 @@
 	</div>
 </div>
 <div class="form-div">
-		<h4>Set Appointment</h4>
 		<hr>
 		<form action="set-appointment.php" method="POST" id="appt-form">
 			<label>Branch:</label>
 			<select id="branslct" class="watchthis">
 			<?php
 				echo "<option value=\"0\">--Select Branch--</option>";
-				foreach ($brn_rsa as $row) {
-					echo "<option value=\"{$row['branch_id']}\">{$row['branch_name']}</option>";
+				foreach ($building as $row) {
+					echo "<option value=\"{$row['building_id']}\">{$row['building_name']}</option>";
+				}
+			?>
+			</select><br>
+			<label>Cinema:</label>
+			<select id="branslct" class="watchthis">
+			<?php
+				echo "<option value=\"0\">--Select Branch--</option>";
+				foreach ($cinema as $row) {
+					echo "<option value=\"{$row['cinema_id']}\">{$row['cinema_name']}</option>";
 				}
 			?>
 			</select><br>

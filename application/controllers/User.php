@@ -132,12 +132,13 @@ class User extends CI_Controller {
         {
             $this->load->view('header');
             $this->load->model('cinemaaModel');
-            $this->load->model('buildingModel');
-            $this->load->model('movieModel');
-            $this->movieModel->specific_movie($id);
-            $data['res'] = $this->movieModel->specific_movie($id);
             $data['cinema'] = $this->cinemaaModel->get_cinema();
+            $this->load->model('buildingModel');
             $data['building'] = $this->buildingModel->get_all();
+            $this->load->model('movieModel');
+            $data['res'] = $this->movieModel->specific_movie($id);
+            $this->movieModel->specific_movie($id);
+            
 
             $this->load->view('moviePage', $data);
             $this->load->view('footer');

@@ -13,8 +13,10 @@
 			<select id="branslct" class="watchthis">
 			<?php
 				echo "<option value=\"0\">--Select Branch--</option>";
+				print_r($building);
 				foreach ($building as $row) {
-					echo "<option value=\"{$row['building_id']}\">{$row['building_name']}</option>";
+
+					echo "<option value='{$row->building_id}'>{$row->building_name}</option>";
 				}
 			?>
 			</select><br>
@@ -23,7 +25,8 @@
 			<?php
 				echo "<option value=\"0\">--Select Branch--</option>";
 				foreach ($cinema as $row) {
-					echo "<option value=\"{$row['cinema_id']}\">{$row['cinema_name']}</option>";
+
+					echo "<option value=\"{$row->cinema_id}\">{$row->cinema_number}</option>";
 				}
 			?>
 			</select><br>

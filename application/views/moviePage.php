@@ -7,6 +7,7 @@
 	</div>
 </div>
 <div class="form-div">
+		<h4>Set Appointment</h4>
 		<hr>
 		<form action="set-appointment.php" method="POST" id="appt-form">
 			<label>Branch:</label>
@@ -23,12 +24,6 @@
 			<label>Time:</label>
 			<select name="appt_time" required id="appt_time">
 				<!--Possible appointment times are determined by branch [operating] hours, thus can only be determined after user has selected the branch and the date of appointment-->
-				<?php
-				echo "<option value=\"0\">--Select Time--</option>";
-				foreach ($hr_rsa as $row) {
-					echo "<option value=\"{$row['opening']}\">{$row['closing']}</option>";
-				}
-			?>
 				<!--CODE HERE to be injected by result of AJAX query upon SUCCESS-->
 			</select><br>
 			<label>Service:</label>
@@ -41,6 +36,7 @@
 			?>
 			</select>
 			<input type="submit" name="set-appointment" value="Set Appointment">
+			<center><a href="http://jquery.com/">Help</a></center>
 		</form>
 	</div>
 

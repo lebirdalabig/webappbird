@@ -7,10 +7,16 @@
 		private $m_id;
 		private $c_id;
 
-		public function get_screening()
+		public function get_screeningDate($cinema)
 		{
-			$query = $this->db->get('screening');
+			$query = $this->db->query("SELECT screening_date FROM screening WHERE cinema_id = '{$cinema}' GROUP BY screening_date");
             return $query->result();
+		}
+
+		public function get_screeningTime($date){
+			$query = $this->db->query("SELECT screening_id, screening_sched FROM screening WHERE screening_date = '{$date}'");
+			return $query->result();
+
 		}
 		
 		public function addScreening($form_data)

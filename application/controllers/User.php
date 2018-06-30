@@ -136,14 +136,34 @@ class User extends CI_Controller {
             $this->load->model('buildingModel');
             $data['building'] = $this->buildingModel->get_all();
             $this->load->model('movieModel');
-            $data['res'] = $this->movieModel->specific_movie($id);
             $this->movieModel->specific_movie($id);
+            $this->load->model('screeningModel');
+            $data['res'] = $this->movieModel->specific_movie($id);
             
-
             $this->load->view('moviePage', $data);
             $this->load->view('footer');
         }
 
+        public function getScreening_date()
+        {
+            if($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST["cinema"])){
+                $cinema_id = $_POST["cinema"];
+                $this->load->model('screeningModel');
+                $result['data'] = $this->screeningModel->get_screeningDate($cinema_id);
+                echo json_encode($result['data']);
+            }
+        }
+
+        public function getScreening_time()
+        {
+            if($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST["date"])){
+                $screening_date = $_POST["date"];
+                $this->load->model('screeningModel');
+                $result['data'] = $this->screeningModel->get_screeningTime($screening_date);
+                echo json_encode($result['data']);
+            }
+
+        }
         public  function userSettings()
         {
             $this->load->view('header');

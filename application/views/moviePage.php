@@ -15,27 +15,30 @@
 				echo "<option value=\"0\">--Select Branch--</option>";
 				print_r($building);
 				foreach ($building as $row) {
-
-					echo "<option value='{$row->building_id}'>{$row->building_name}</option>";
+					echo "<option value=\"{$row->building_id}\">{$row->building_name}</option>";
 				}
 			?>
 			</select><br>
 			<label>Cinema:</label>
-			<select id="branslct" class="watchthis">
+			<select required id="cineslct" class="watchthis">
 			<?php
 				echo "<option value=\"0\">--Select Branch--</option>";
 				foreach ($cinema as $row) {
-
 					echo "<option value=\"{$row->cinema_id}\">{$row->cinema_number}</option>";
 				}
 			?>
 			</select><br>
 			<label>Date:</label>
-			<input type="date" name="appt_date" placeholder="E-mail" required id="dateslct" class="watchthis"><br>
+			<!--
+			<input type="date" name="appt_date" placeholder="E-mail" required id="dateslct" class="watchthis">
+			-->
+			<select name="appt_date" placeholder="E-mail" required id="dateslct" class="date">
+				
+			</select><br>
+			
 			<label>Time:</label>
-			<select name="appt_time" required id="appt_time">
-				<!--Possible appointment times are determined by branch [operating] hours, thus can only be determined after user has selected the branch and the date of appointment-->
-				<!--CODE HERE to be injected by result of AJAX query upon SUCCESS-->
+			<select name="appt_time" required id="appt_time" class="time">
+				
 			</select><br>
 			<label>Service:</label>
 			<select id="svc" name="svc" required="">
@@ -47,27 +50,90 @@
 			?>
 			</select>
 			<input type="submit" name="set-appointment" value="Set Appointment">
-			<center><a href="http://jquery.com/">Help</a></center>
 		</form>
 	</div>
 
-	<script type="text/javascript">
-		$('#branch').change(function(){
-			var url;
-			var data;
-			
-			$.ajax({
-				method: 'post',
-				url: url,
-				data: data,
-				async: false,
-				dataType: 'json',
-				success: function(response){
-					
-				},
-				error: function(){
-					alert('D:');
-				}
-			})
+<script type="text/javascript">
+$(document).ready(function(){
+		$('select.watchthis').change(function(){
+			var cinema = $('#cineslct').val();
+			var base_url = "<?php echo base_url()?>";
+			if($('#cineslct').val() != 0){
+				$('.date option').remove();
+				$.ajax({
+					method: 'POST',
+					url: base_url + 'User/getScreening_date',
+					data: {
+						cinema : cinema
+					},
+					dataType: 'json',
+					success: function(data){
+						if(!data.message){
+							console.log($('#cineslct').val());
+							var i;
+							for(i = 0; i != data.length; i++){	
+								var toEcho;
+								toEcho +='<option value="'+data[i].screening_date+'">'+data[i].screening_date+'</option>';
+								$('.date').append(toEcho);
+							}	
+						}
+					}
+				});				
+			}	
 		});
-	</script>
+
+		$('select.date').change(function(){
+			var date = $('.date').find(":selected").val();
+			var base_url = "<?php echo base_url()?>";
+			$('.time option').remove();
+			$.ajax({
+					method: 'POST',
+					url: base_url + 'User/getScreening_time',
+					data: {
+						date : date
+					},
+					dataType: 'json',
+					success: function(data){
+						if(!data.message){
+							var i;
+							for(i = 0; i != data.length; i++){				
+								var toEcho;
+								toEcho +='<option value="'+data[i].screening_id+'">'+data[i].screening_sched+'</option>';
+								$('.time').append(toEcho);
+							}	
+						}
+					}
+			});				
+		});/*
+
+		if($('.date option').length > 0){
+			console.log("not empty");
+			getTime();
+		}
+	
+});
+function getTime(){
+			var date = $('.date').find(":selected").val();
+			var base_url = "<?php echo base_url()?>";
+			$('.time option').remove();
+			$.ajax({
+					method: 'POST',
+					url: base_url + 'User/getScreening_time',
+					data: {
+						date : date
+					},
+					dataType: 'json',
+					success: function(data){
+						if(!data.message){
+							var i;
+							for(i = 0; i != data.length; i++){				
+								var toEcho;
+								toEcho +='<option value="'+data[i].screening_id+'">'+data[i].screening_sched+'</option>';
+								$('.time').append(toEcho);
+							}	
+						}
+					}
+			});				
+	}*/
+	
+</script>

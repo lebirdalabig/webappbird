@@ -134,7 +134,9 @@ class User extends CI_Controller {
             $this->load->model('cinemaaModel');
             $this->load->model('buildingModel');
             $this->load->model('movieModel');
+            $this->load->model('screeningModel');
             $this->movieModel->specific_movie($id);
+            $data['screen']=$this->screeningModel->get_screening();
             $data['res'] = $this->movieModel->specific_movie($id);
             $data['cinema'] = $this->cinemaaModel->get_cinema();
             $data['building'] = $this->buildingModel->get_all();

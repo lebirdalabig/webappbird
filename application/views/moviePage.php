@@ -14,16 +14,16 @@
 			<?php
 				echo "<option value=\"0\">--Select Branch--</option>";
 				foreach ($building as $row) {
-					echo "<option value=\"{$row['building_id']}\">{$row['building_name']}</option>";
+					echo "<option value=\"{$row->building_id}\">{$row->building_name}</option>";
 				}
 			?>
 			</select><br>
 			<label>Cinema:</label>
-			<select id="branslct" class="watchthis">
+			<select required id="cineslct" class="watchthis">
 			<?php
 				echo "<option value=\"0\">--Select Branch--</option>";
 				foreach ($cinema as $row) {
-					echo "<option value=\"{$row['cinema_id']}\">{$row['cinema_name']}</option>";
+					echo "<option value=\"{$row->cinema_id}\">{$row->cinema_number}</option>";
 				}
 			?>
 			</select><br>
@@ -31,8 +31,7 @@
 			<input type="date" name="appt_date" placeholder="E-mail" required id="dateslct" class="watchthis"><br>
 			<label>Time:</label>
 			<select name="appt_time" required id="appt_time">
-				<!--Possible appointment times are determined by branch [operating] hours, thus can only be determined after user has selected the branch and the date of appointment-->
-				<!--CODE HERE to be injected by result of AJAX query upon SUCCESS-->
+				
 			</select><br>
 			<label>Service:</label>
 			<select id="svc" name="svc" required="">
@@ -44,27 +43,31 @@
 			?>
 			</select>
 			<input type="submit" name="set-appointment" value="Set Appointment">
-			<center><a href="http://jquery.com/">Help</a></center>
 		</form>
 	</div>
 
 	<script type="text/javascript">
-		$('#branch').change(function(){
-			var url;
-			var data;
-			
-			$.ajax({
-				method: 'post',
-				url: url,
-				data: data,
-				async: false,
-				dataType: 'json',
-				success: function(response){
-					
+		$('#watchthis').change(function(){
+			if($('#cineslct').val() != 0 && $('#dateslct').val())
+			{
+				$.ajax({
+					method: 'GET',
+					url: 'moviepage.php',
+					data: {date:$('#dateslct').val(),cinema:$('#cineslct').val()},
+					dataType: 'json',
+					success: function(data){
+						var toEcho = '';
+						var i;
+						for(i = 0; toecho < 5; toEcho++)
+						{
+							toEcho +='<option value="'+toEcho+'">'+toEcho+'</option>';
+						}
+					$('#appt_time').html(toEcho);
+					}
 				},
-				error: function(){
-					alert('D:');
+					error: function(){
+						alert('Could not get Data from Database');
 				}
 			})
-		});
+		}
 	</script>
